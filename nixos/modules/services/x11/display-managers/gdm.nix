@@ -103,6 +103,8 @@ in
     services.xserver.tty = null;
     services.xserver.display = null;
     services.xserver.verbose = null;
+    # system.nssModules = pkgs.sssd;
+    # system.nssModules = optional cfg.enable pkgs.sssd;
 
     services.xserver.displayManager.job =
       {
@@ -112,6 +114,9 @@ in
           GDM_SESSIONS_DIR = "${cfg.session.desktops}";
           # Find the mouse
           XCURSOR_PATH = "~/.icons:${pkgs.gnome3.adwaita-icon-theme}/share/icons";
+          # LD_LIBRARY_PATH = nssModulesPath;
+          # LD_LIBRARY_PATH="${config.system.nssModules.path}";
+          # LD_LIBRARY_PATH="/nix/store/nrl60g60zmb0zc2pagkd81d6i27zngn3-sssd-1.16.0/lib";
         };
         execCmd = "exec ${gdm}/bin/gdm";
       };
