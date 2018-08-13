@@ -79,17 +79,20 @@ in {
     # library.  !!! Factor out the mdns stuff.  The avahi module
     # should define an option used by this module.
     environment.etc."nsswitch.conf".text = ''
-      passwd:    ${concatStringsSep " " passwdArray}
-      group:     ${concatStringsSep " " passwdArray}
-      shadow:    ${concatStringsSep " " shadowArray}
-
-      hosts:     ${concatStringsSep " " hostArray}
-      networks:  files
-
-      ethers:    files
-      services:  ${concatStringsSep " " servicesArray}
-      protocols: files
-      rpc:       files
+passwd:         compat sss 
+group:          compat sss 
+shadow:         compat sss 
+gshadow:        files 
+ 
+hosts:          files dns 
+networks:       files 
+ 
+protocols:      db files 
+services:       db files sss 
+ethers:         db files 
+rpc:            db files 
+ 
+netgroup:       nis sss
     '';
 
     # Systemd provides nss-myhostname to ensure that our hostname
