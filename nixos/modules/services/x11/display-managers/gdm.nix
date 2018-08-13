@@ -189,58 +189,31 @@ in
       '';
 
       gdm.text = ''
-        auth     requisite      pam_nologin.so
-        auth     required       pam_env.so envfile=${config.system.build.pamEnvironment}
+auth     include   login
+auth     optional  ${pkgs.gnome3.gnome-keyring}/lib/security/pam_gnome_keyring.so
 
-        auth     required       pam_succeed_if.so uid >= 1000 quiet
-        auth     optional       ${pkgs.gnome3.gnome-keyring}/lib/security/pam_gnome_keyring.so
-        auth     ${if config.security.pam.enableEcryptfs then "required" else "sufficient"} pam_unix.so nullok likeauth
-        ${optionalString config.security.pam.enableEcryptfs
-          "auth required ${pkgs.ecryptfs}/lib/security/pam_ecryptfs.so unwrap"}
+account  include   login
 
-        ${optionalString (! config.security.pam.enableEcryptfs)
-          "auth     required       pam_deny.so"}
+password include   login
+password optional  ${pkgs.gnome3.gnome-keyring}/lib/security/pam_gnome_keyring.so use_authtok
 
-        account  sufficient     pam_unix.so
-
-        password requisite      pam_unix.so nullok sha512
-        ${optionalString config.security.pam.enableEcryptfs
-          "password optional ${pkgs.ecryptfs}/lib/security/pam_ecryptfs.so"}
-
-        session  required       pam_env.so envfile=${config.system.build.pamEnvironment}
-        session  required       pam_unix.so
-        ${optionalString config.security.pam.enableEcryptfs
-          "session optional ${pkgs.ecryptfs}/lib/security/pam_ecryptfs.so"}
-        session  required       pam_loginuid.so
-        session  optional       ${pkgs.systemd}/lib/security/pam_systemd.so
-        session  optional       ${pkgs.gnome3.gnome-keyring}/lib/security/pam_gnome_keyring.so auto_start
+session  optional  pam_keyinit.so force revoke
+session  include   login
+session  optional  ${pkgs.gnome3.gnome-keyring}/lib/security/pam_gnome_keyring.so auto_start
       '';
 
       gdm-password.text = ''
-        auth     requisite      pam_nologin.so
-        auth     required       pam_env.so envfile=${config.system.build.pamEnvironment}
+auth     include   login
+auth     optional  ${pkgs.gnome3.gnome-keyring}/lib/security/pam_gnome_keyring.so
 
-        auth     required       pam_succeed_if.so uid >= 1000 quiet
-        auth     optional       ${pkgs.gnome3.gnome-keyring}/lib/security/pam_gnome_keyring.so
-        auth     ${if config.security.pam.enableEcryptfs then "required" else "sufficient"} pam_unix.so nullok likeauth
-        ${optionalString config.security.pam.enableEcryptfs
-          "auth required ${pkgs.ecryptfs}/lib/security/pam_ecryptfs.so unwrap"}
-        ${optionalString (! config.security.pam.enableEcryptfs)
-          "auth     required       pam_deny.so"}
+account  include   login
 
-        account  sufficient     pam_unix.so
+password include   login
+password optional  ${pkgs.gnome3.gnome-keyring}/lib/security/pam_gnome_keyring.so use_authtok
 
-        password requisite      pam_unix.so nullok sha512
-        ${optionalString config.security.pam.enableEcryptfs
-          "password optional ${pkgs.ecryptfs}/lib/security/pam_ecryptfs.so"}
-
-        session  required       pam_env.so envfile=${config.system.build.pamEnvironment}
-        session  required       pam_unix.so
-        ${optionalString config.security.pam.enableEcryptfs
-          "session optional ${pkgs.ecryptfs}/lib/security/pam_ecryptfs.so"}
-        session  required       pam_loginuid.so
-        session  optional       ${pkgs.systemd}/lib/security/pam_systemd.so
-        session  optional       ${pkgs.gnome3.gnome-keyring}/lib/security/pam_gnome_keyring.so auto_start
+session  optional  pam_keyinit.so force revoke
+session  include   login
+session  optional  ${pkgs.gnome3.gnome-keyring}/lib/security/pam_gnome_keyring.so auto_start
       '';
 
       gdm-autologin.text = ''
