@@ -1,11 +1,11 @@
-{ lib, bundlerEnv, ruby_2_4, perl, autoconf }:
+{ lib, bundlerEnv, ruby_2_6, perl, autoconf }:
 
 bundlerEnv {
   # Last updated via:
-  # nix-shell -p bundix -p gcc -p libxml2 -p zlib --run "bundix -mdl"
-  name = "chefdk-2.4.17";
+  # nix-shell -p bundix -p gcc -p libxml2 -p zlib --run "bundix -ml"
+  name = "chefdk-3.10.1";
 
-  ruby = ruby_2_4;
+  ruby = ruby_2_6;
   gemdir = ./.;
 
   buildInputs = [ perl autoconf ];
