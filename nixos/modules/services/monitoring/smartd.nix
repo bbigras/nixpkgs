@@ -49,9 +49,17 @@ let
       EOF
       } | ${pkgs.xorg.xmessage}/bin/xmessage -file - 2>/dev/null &
     ''}
+
+    MAKO=`${pkgs.procps}/bin/ps aux | ${pkgs.gnugrep}/bin/grep bin/mako | ${pkgs.gnugrep}/bin/grep -m1 -v grep`
+
+    USER=`${pkgs.gawk}/bin/awk '{ print $1 }' <<< "$MAKO"`
+    DBUS_PID=`${pkgs.gawk}/bin/awk '{ print $2 }' <<< "$MAKO"`
+    DBUS_SESSION=`${pkgs.gnugrep}/bin/grep -z DBUS_SESSION_BUS_ADDRESS /proc/$DBUS_PID/environ | ${pkgs.gnused}/bin/sed -e s/DBUS_SESSION_BUS_ADDRESS=//`
+
+    ${pkgs.su}/bin/su $USER -c "DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION ${pkgs.libnotify}/bin/notify-send -u critical \"Problem detected with disk: $SMARTD_DEVICESTRING\" \"$SMARTD_MESSAGE\""
   '';
 
-  notifyOpts = optionalString (nm.enable || nw.enable || nx.enable)
+  notifyOpts = optionalString (nm.enable || nw.enable || nx.enable || true)
     ("-m <nomailer> -M exec ${smartdNotify} " + optionalString cfg.notifications.test "-M test ");
 
   smartdConf = pkgs.writeText "smartd.conf" ''
