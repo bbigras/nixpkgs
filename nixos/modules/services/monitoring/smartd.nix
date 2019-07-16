@@ -50,7 +50,7 @@ let
       } | ${pkgs.xorg.xmessage}/bin/xmessage -file - 2>/dev/null &
     ''}
 
-    MAKO=`${pkgs.procps}/bin/ps aux | ${pkgs.gnugrep}/bin/grep bin/mako | ${pkgs.gnugrep}/bin/grep -m1 -v grep`
+    MAKO=`${pkgs.procps}/bin/ps aux | ${pkgs.gnugrep}/bin/grep -w mako | ${pkgs.gnugrep}/bin/grep -m1 -v grep`
 
     USER=`${pkgs.gawk}/bin/awk '{ print $1 }' <<< "$MAKO"`
     DBUS_PID=`${pkgs.gawk}/bin/awk '{ print $2 }' <<< "$MAKO"`
