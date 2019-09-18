@@ -2,11 +2,11 @@
 
 pythonPackages.buildPythonApplication rec {
   pname = "mopidy-gmusic";
-  version = "3.0.0";
+  version = "3562ad4b07bf6c0801338db72cd0c6f0633a07af";
 
   src = fetchurl {
-    url = "https://github.com/mopidy/mopidy-gmusic/archive/v${version}.tar.gz";
-    sha256 = "0a2s4xrrhnkv85rx4w5bj6ih9xm34jy0q71fdvbzmi827g9dw5sz";
+    url = "https://github.com/mopidy/mopidy-gmusic/archive/3562ad4b07bf6c0801338db72cd0c6f0633a07af.tar.gz";
+    sha256 = "13ad9zxidnqb818ngi2h4rx38964r1pibdpzpqk2blflfvf6g8py";
   };
 
   propagatedBuildInputs = [
