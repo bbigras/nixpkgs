@@ -7,17 +7,44 @@ import ./make-test-python.nix ({ pkgs, ... }:
 
   nodes =
     {
-      # client =
-        # { pkgs, ... }:
-        # { fileSystems = pkgs.lib.mkVMOverride
-            # { "/public" = {
-                # fsType = "cifs";
-                # device = "//server/public";
-                # options = [ "guest" ];
-              # };
-            # };
-        # };
-
+      client =
+        { ... }:
+        { services.samba.enable = true;
+          services.samba.package = pkgs.samba4Full;
+          networking.firewall.allowedTCPPorts = [ 139 445 22 ];
+          networking.firewall.allowedUDPPorts = [ 137 138 ];
+          networking.nameservers = [ "server" ];
+          networking.search = [ "samdom.example.com" ];
+          # services.openssh.enable = true;
+          # services.openssh.passwordAuthentication = true;
+          
+          users.users.bbigras = {
+            createHome = true;
+            isNormalUser = true;
+            extraGroups = [
+              "wheel"
+            ];
+            openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMjASjWJlY10Z1GlMtcB0VXZMr0toCrM1KFumMkRMyQF bruno@portable" ];
+          };
+          
+          environment.systemPackages = with pkgs; [ pkgs.samba4Full sudo ];
+          
+          # services.kerberos_server.enable = true;
+          # services.kerberos_server.realms."SAMDOM.EXAMPLE.COM" = {};
+          
+          krb5 = {
+            enable = true;
+            kerberos = pkgs.heimdalFull;
+            # kerberos = pkgs.krb5Full;
+            config = ''
+[libdefaults]
+	default_realm = SAMDOM.EXAMPLE.COM
+	dns_lookup_realm = false
+	dns_lookup_kdc = true
+    '';
+          };
+        };
+          
       server =
         { ... }:
         { services.samba.enable = true;
@@ -54,9 +81,10 @@ import ./make-test-python.nix ({ pkgs, ... }:
 	path = /root/prov/state/sysvol/samdom.example.com/scripts
 	read only = No
 '';
-          networking.firewall.allowedTCPPorts = [ 139 445 22 ];
-          networking.firewall.allowedUDPPorts = [ 137 138 ];
-          # networking.nameservers = [ "127.0.0.1" ];
+          # networking.firewall.allowedTCPPorts = [ 139 445 22 ];
+          # networking.firewall.allowedUDPPorts = [ 137 138 ];
+          networking.firewall.enable = false;
+          networking.nameservers = [ "127.0.0.1" ];
           networking.search = [ "samdom.example.com" ];
           services.openssh.enable = true;
           # services.openssh.passwordAuthentication = true;
@@ -96,6 +124,7 @@ import ./make-test-python.nix ({ pkgs, ... }:
         };
     };
 
+
   # client# [    4.542997] mount[777]: sh: systemd-ask-password: command not found
 
       # server.wait_for_unit("samba.target")
@@ -107,6 +136,7 @@ import ./make-test-python.nix ({ pkgs, ... }:
   testScript =
     ''
       server.start()
+      client.start()
       server.wait_for_unit("multi-user.target")
       server.succeed(
           "samba-tool domain provision --server-role=dc --use-rfc2307 --dns-backend=SAMBA_INTERNAL --realm=SAMDOM.EXAMPLE.COM --domain=SAMDOM --adminpass=Passw0rd --targetdir=/root/prov -s /etc/samba/smb.conf"
