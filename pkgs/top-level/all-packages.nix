@@ -278,6 +278,8 @@ in
 
   graph-easy = callPackage ../tools/graphics/graph-easy { };
 
+  jasperstarter = callPackage ../tools/graphics/jasperstarter { };
+
   packer = callPackage ../development/tools/packer { };
 
   packr = callPackage ../development/libraries/packr {
