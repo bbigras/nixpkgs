@@ -10,6 +10,7 @@
 , scdoc
 , libnotify
 , gio-sharp
+, glibc
 }:
 
 stdenv.mkDerivation rec {
@@ -22,6 +23,8 @@ stdenv.mkDerivation rec {
     rev = "b5cc433d75d77759cef139e0e232bde79196f886";
     sha256 = "08r9hmhzzb5ac4g6zwm7w05n99v0hl2h0w4d8i694hg4pyjxb95y";
   };
+
+  nativeBuildInputs = [ glibc.dev ];
 
   buildInputs = [ meson ninja pkgconfig cmake scdoc gio-sharp libnotify gtk pango cairo wayland];
 
