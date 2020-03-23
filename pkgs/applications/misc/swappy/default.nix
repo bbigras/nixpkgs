@@ -26,7 +26,7 @@ stdenv.mkDerivation rec {
   buildInputs = [ meson ninja pkgconfig cmake scdoc gio-sharp libnotify gtk pango cairo wayland];
 
   meta = {
-    homepage = https://github.com/jtheoof/swappy;
+    homepage = "https://github.com/jtheoof/swappy";
     description = "A Wayland native snapshot editing tool, inspired by Snappy on macOS ";
     license = stdenv.lib.licenses.mit;
     maintainers = [ stdenv.lib.maintainers.matthiasbeyer ];
