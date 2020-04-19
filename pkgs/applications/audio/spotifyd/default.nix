@@ -12,13 +12,13 @@ rustPlatform.buildRustPackage rec {
   version = "0.2.24";
 
   src = fetchFromGitHub {
-    owner = "Spotifyd";
+    owner = "bbigras";
     repo = "spotifyd";
-    rev = "v${version}";
-    sha256 = "08i0zm7kgprixqjpgaxk7xid1njgj6lmi896jf9fsjqzdzlblqk8";
+    rev = "739cdec697aedd3880bda2c2c8be21483395f6f7";
+    sha256 = "12ihplks2dry8nwfp1g5wgfs0sa9k5k64iirbnp2i70lilh77gwf";
   };
 
-  cargoSha256 = "0200apqbx769ggjnjr0m72g61ikhml2xak5n1il2pvfx1yf5nw0n";
+  cargoSha256 = "0lh3y3ca7n3lzc6gh906d057pgxk1h1gx1f77179bck4z2kxz3pb";
 
   cargoBuildFlags = [
     "--no-default-features"
