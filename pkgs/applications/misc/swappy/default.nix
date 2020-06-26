@@ -9,8 +9,7 @@
 , cmake
 , scdoc
 , libnotify
-, gio-sharp
-, glibc
+, glib
 }:
 
 stdenv.mkDerivation rec {
@@ -24,9 +23,9 @@ stdenv.mkDerivation rec {
     sha256 = "1dk5q1f71n5zs2xximpwi2jfdznqwvjrprxi7clqc077nqv48s1j";
   };
 
-  nativeBuildInputs = [ glibc.dev ];
+  buildInputs = [ meson ninja pkgconfig cmake scdoc libnotify gtk pango cairo wayland];
 
-  buildInputs = [ meson ninja pkgconfig cmake scdoc gio-sharp libnotify gtk pango cairo wayland];
+  mesonFlags = [ "-Dc_args=-I${glib.dev}/include/gio-unix-2.0" ];
 
   meta = {
     homepage = "https://github.com/jtheoof/swappy";
