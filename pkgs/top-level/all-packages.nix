@@ -3039,6 +3039,8 @@ in
     wxGTK = wxGTK30;
   };
 
+  drep = callPackage ../tools/text/drep { };
+
   drive = callPackage ../applications/networking/drive { };
 
   driftnet = callPackage ../tools/networking/driftnet {};
