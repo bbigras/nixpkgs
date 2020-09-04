@@ -1,10 +1,10 @@
-{ stdenv, fetchurl, fetchpatch, glibc, augeas, dnsutils, c-ares, curl,
+{ stdenv, fetchFromGitHub, glibc, augeas, dnsutils, c-ares, curl,
   cyrus_sasl, ding-libs, libnl, libunistring, nss, samba, nfs-utils, doxygen,
   python, python3, pam, popt, talloc, tdb, tevent, pkgconfig, ldb, openldap,
   pcre, kerberos, cifs-utils, glib, keyutils, dbus, fakeroot, libxslt, libxml2,
   libuuid, ldap, systemd, nspr, check, cmocka, uid_wrapper,
   nss_wrapper, ncurses, Po4a, http-parser, jansson,
-  docbook_xsl, docbook_xml_dtd_44,
+  docbook_xsl, docbook_xml_dtd_44, autoreconfHook,
   withSudo ? false }:
 
 let
@@ -12,19 +12,15 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "sssd";
-  version = "1.16.4";
+  version = "2.3.1";
 
-  src = fetchurl {
-    url = "https://fedorahosted.org/released/sssd/${pname}-${version}.tar.gz";
-    sha256 = "0ngr7cgimyjc6flqkm7psxagp1m4jlzpqkn28pliifbmdg6i5ckb";
+  src = fetchFromGitHub {
+    owner = "SSSD";
+    repo = pname;
+    # rev = "sssd-${version}";
+    rev = "sssd-2_3_1";
+    sha256 = "16nzm7y0lcx94qbdzfia61v2yy1ggd3dwcrcbgnc8qn4f6ms6fim";
   };
-  patches = [
-    # Fix build failure against samba 4.12.0rc1
-    (fetchpatch {
-      url = "https://github.com/SSSD/sssd/commit/bc56b10aea999284458dcc293b54cf65288e325d.patch";
-      sha256 = "0q74sx5n41srq3kdn55l5j1sq4xrjsnl5y4v8yh5mwsijj74yh4g";
-    })
-  ];
 
   # Something is looking for <libxml/foo.h> instead of <libxml2/libxml/foo.h>
   NIX_CFLAGS_COMPILE = "-I${libxml2.dev}/include/libxml2";
@@ -60,7 +56,7 @@ stdenv.mkDerivation rec {
                   talloc tdb tevent pkgconfig ldb pam openldap pcre kerberos
                   cifs-utils glib keyutils dbus fakeroot libxslt libxml2
                   libuuid ldap systemd nspr check cmocka uid_wrapper
-                  nss_wrapper ncurses Po4a http-parser jansson ];
+                  nss_wrapper ncurses Po4a http-parser jansson autoreconfHook ];
 
   makeFlags = [
     "SGML_CATALOG_FILES=${docbookFiles}"
