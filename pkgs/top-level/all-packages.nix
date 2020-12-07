@@ -2673,6 +2673,8 @@ in
 
   mozlz4a = callPackage ../tools/compression/mozlz4a { };
 
+  mpvpaper = callPackage ../development/tools/mpvpaper { };
+
   msr-tools = callPackage ../os-specific/linux/msr-tools { };
 
   mstflint = callPackage ../tools/misc/mstflint { };
