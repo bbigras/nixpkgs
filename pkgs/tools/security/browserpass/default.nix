@@ -1,18 +1,18 @@
 { lib, buildGoModule, fetchFromGitHub, makeWrapper, gnupg }:
 buildGoModule rec {
   pname = "browserpass";
-  version = "3.0.6";
+  version = "3.0.7";
 
   src = fetchFromGitHub {
     owner = "browserpass";
     repo = "browserpass-native";
     rev = version;
-    sha256 = "0q3bsla07zjl6i69nj1axbkg2ia89pvh0jg6nlqgbm2kpzzbn0pz";
+    sha256 = "1jkjslbbac49xjyjkc2b07phdm3i64z40kh6h55cl22dxjmpp1nb";
   };
 
   nativeBuildInputs = [ makeWrapper ];
 
-  vendorSha256 = "1wcbn0ip596f2dp68y6jmxgv20l0dgrcxg5cwclkawigj05416zj";
+  vendorSha256 = "0r5ndfqqhvink308bw440qw0d95g2m7gnznaihvwb663fr9haqr2";
 
   doCheck = false;
 
