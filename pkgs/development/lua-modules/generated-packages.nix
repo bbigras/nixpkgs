@@ -696,7 +696,7 @@ lua-resty-http = buildLuarocksPackage {
   version = "0.15-0";
 
   src = fetchurl {
-    url    = mirror://luarocks/lua-resty-http-0.15-0.src.rock;
+    url    = "mirror://luarocks/lua-resty-http-0.15-0.src.rock";
     sha256 = "1121abcz9y8kis2wdg7i1m75y8lplk3k49v02y804bywbl2km4fz";
   };
   disabled = (luaOlder "5.1");
@@ -713,7 +713,7 @@ lua-resty-jwt = buildLuarocksPackage {
   version = "0.2.2-0";
 
   src = fetchurl {
-    url    = mirror://luarocks/lua-resty-jwt-0.2.2-0.src.rock;
+    url    = "mirror://luarocks/lua-resty-jwt-0.2.2-0.src.rock";
     sha256 = "1a4wwiwcjwgr59g2940a2h0i6n1c7xjy2px5bls3x5br4shwhswa";
   };
   disabled = (luaOlder "5.1");
@@ -730,7 +730,7 @@ lua-resty-openidc = buildLuarocksPackage {
   version = "1.7.2-1";
 
   src = fetchurl {
-    url    = mirror://luarocks/lua-resty-openidc-1.7.2-1.src.rock;
+    url    = "mirror://luarocks/lua-resty-openidc-1.7.2-1.src.rock";
     sha256 = "01mya69r4fncfrpqh5pn2acg18q3slds8zm976qgkjby0pzwzzw7";
   };
   disabled = (luaOlder "5.1");
@@ -747,7 +747,7 @@ lua-resty-session = buildLuarocksPackage {
   version = "3.6-1";
 
   src = fetchurl {
-    url    = mirror://luarocks/lua-resty-session-3.6-1.src.rock;
+    url    = "mirror://luarocks/lua-resty-session-3.6-1.src.rock";
     sha256 = "1r5626x247d1vi5bzqfk11bl4d5c39h1iqj6mgndnwpnz43cag5i";
   };
   disabled = (luaOlder "5.1");
