@@ -13,6 +13,14 @@ in
     '';
     type = types.attrsOf (types.submodule ({ name, ... }: {
       options = {
+        pipeCmd = mkOption {
+          type = with types; nullOr str;
+          default = null;
+          description = ''
+            '';
+          example = "";
+        };
+
         passwordFile = mkOption {
           type = types.str;
           description = ''
@@ -245,7 +253,7 @@ in
           restartIfChanged = false;
           serviceConfig = {
             Type = "oneshot";
-            ExecStart = (optionals (backupPaths != "") [ "${resticCmd} backup --cache-dir=%C/restic-backups-${name} ${concatStringsSep " " backup.extraBackupArgs} ${backupPaths}" ])
+            ExecStart = (optionals (backupPaths != "") [ "${resticCmd} backup --json --cache-dir=%C/restic-backups-${name} ${concatStringsSep " " backup.extraBackupArgs} ${backupPaths} ${optionalString (backup.pipeCmd != null) backup.pipeCmd}"])
                         ++ pruneCmd;
             User = backup.user;
             RuntimeDirectory = "restic-backups-${name}";
