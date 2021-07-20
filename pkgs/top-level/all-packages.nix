@@ -4198,6 +4198,8 @@ in
     inherit (darwin.apple_sdk.frameworks) Security;
   };
 
+  diffsitter = callPackage ../tools/text/diffsitter { };
+
   diffstat = callPackage ../tools/text/diffstat { };
 
   diffutils = callPackage ../tools/text/diffutils { };
