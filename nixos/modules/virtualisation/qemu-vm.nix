@@ -163,7 +163,6 @@ let
       exec ${qemu-common.qemuBinary qemu} \
           -name ${config.system.name} \
           -m ${toString config.virtualisation.memorySize} \
-          -smp ${toString config.virtualisation.cores} \
           -device virtio-rng-pci \
           ${concatStringsSep " " config.virtualisation.qemu.networkingOptions} \
           ${concatStringsSep " \\\n    "
