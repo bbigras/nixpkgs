@@ -175,7 +175,7 @@ in
             description = ''
               Credential file.
 
-              It seems to be a json those keys: <literal>AccountTag</literal>, <literal>TunnelSecret</literal>, <literal>TunnelID</literal> and <literal>TunnelName</literal>.
+              See <link xlink:href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-useful-terms/#credentials-file">Credentials file</link>.
             '';
           };
 
