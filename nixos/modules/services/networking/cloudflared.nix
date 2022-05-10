@@ -139,10 +139,20 @@ let
   };
 in
 {
-  meta.maintainers = with maintainers; [ bbigras ];
-
   options.services.cloudflared = {
-    enable = mkEnableOption "Cloudflared Argo Tunnel client daemon";
+    enable = mkEnableOption "Cloudflare Tunnel client daemon (formerly Argo Tunnel)";
+
+    user = mkOption {
+      type = types.str;
+      default = "cloudflared";
+      description = "User account under which Cloudflared runs.";
+    };
+
+    group = mkOption {
+      type = types.str;
+      default = "cloudflared";
+      description = "Group under which cloudflared runs.";
+    };
 
     package = mkOption {
       type = types.package;
@@ -159,28 +169,35 @@ in
         options = {
           inherit originRequest;
 
-          tunnel = mkOption {
-            type = with types; nullOr str;
-            default = null;
-            description = ''
-              Tunnel ID or name.
-            '';
-            example = "00000000-0000-0000-0000-000000000000";
-          };
-
           credentialsFile = mkOption {
             type = with types; nullOr str;
             default = null;
             description = ''
               Credential file.
+
+              It seems to be a json those keys: <literal>AccountTag</literal>, <literal>TunnelSecret</literal>, <literal>TunnelID</literal> and <literal>TunnelName</literal>.
             '';
+          };
+
+          warp-routing = {
+            enabled = mkOption {
+              type = with types; nullOr bool;
+              default = null;
+              description = ''
+                Enable warp routing.
+
+                See <link xlink:href="https://developers.cloudflare.com/cloudflare-one/tutorials/warp-to-tunnel/">Connect from WARP to a private network on Cloudflare using Cloudflare Tunnel</link>.
+              '';
+            };
           };
 
           default = mkOption {
             type = with types; nullOr str;
             default = null;
             description = ''
-              Catch-all if no ingress matches.
+              Catch-all service if no ingress matches.
+
+              See <literal>service</literal>.
             '';
             example = "http_status:404";
           };
@@ -194,7 +211,9 @@ in
                   type = with types; nullOr str;
                   default = null;
                   description = ''
-                    TODO
+                    Service to pass the traffic.
+
+                    See <link xlink:href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/local-management/ingress/#supported-protocols">Supported protocols</link>.
                   '';
                   example = "http://localhost:80, tcp://localhost:8000, unix:/home/production/echo.sock, hello_world or http_status:404";
                 };
@@ -203,7 +222,9 @@ in
                   type = with types; nullOr str;
                   default = null;
                   description = ''
-                    TODO
+                    Path filter.
+
+                    If not specified, all paths will be matched.
                   '';
                   example = "/*.(jpg|png|css|js)";
                 };
@@ -212,7 +233,9 @@ in
             }));
             default = { };
             description = ''
-              TODO
+              Ingress rules.
+
+              See <link xlink:href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/local-management/ingress/">Ingress rules</link>.
             '';
             example = {
               "*.domain.com" = "http://localhost:80";
@@ -223,10 +246,33 @@ in
       }));
 
       default = { };
+      example = {
+        "00000000-0000-0000-0000-000000000000" = {
+          credentialsFile = "/tmp/test";
+          ingress = {
+            "*.domain1.com" = {
+              service = "http://localhost:80";
+            };
+          };
+          default = "http_status:404";
+        };
+      };
     };
   };
 
   config = {
+    systemd.targets =
+      mapAttrs'
+        (name: tunnel:
+          nameValuePair "cloudflared-tunnel-${name}" ({
+            description = "Cloudflare tunnel '${name}' target";
+            requires = [ "cloudflared-tunnel-${name}.service" ];
+            after = [ "cloudflared-tunnel-${name}.service" ];
+            unitConfig.StopWhenUnneeded = true;
+          })
+        )
+        config.services.cloudflared.tunnels;
+
     systemd.services =
       mapAttrs'
         (name: tunnel:
@@ -248,11 +294,26 @@ in
             after = [ "network.target" ];
             wantedBy = [ "multi-user.target" ];
             serviceConfig = {
+              User = cfg.user;
+              Group = cfg.group;
               ExecStart = "${cfg.package}/bin/cloudflared tunnel --config=${mkConfigFile} --no-autoupdate run";
               Restart = "always";
             };
           })
         )
         config.services.cloudflared.tunnels;
+
+    users.users = mkIf (cfg.user == "cloudflared") {
+      cloudflared = {
+        group = cfg.group;
+        isSystemUser = true;
+      };
+    };
+
+    users.groups = mkIf (cfg.group == "cloudflared") {
+      cloudflared = { };
+    };
   };
+
+  meta.maintainers = with maintainers; [ bbigras ];
 }
