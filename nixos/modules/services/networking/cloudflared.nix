@@ -203,7 +203,7 @@ in
           };
 
           ingress = mkOption {
-            type = types.attrsOf (types.submodule ({ hostname, ... }: {
+            type = with types; attrsOf (either str (submodule ({ hostname, ... }: {
               options = {
                 inherit originRequest;
 
@@ -230,7 +230,7 @@ in
                 };
 
               };
-            }));
+            })));
             default = { };
             description = ''
               Ingress rules.
@@ -279,14 +279,29 @@ in
           let
             filterConfig = lib.attrsets.filterAttrsRecursive (_: v: ! builtins.elem v [ null [ ] { } ]);
 
+            filterIngressSet = filterAttrs (_: v: builtins.typeOf v == "set");
+            filterIngressStr = filterAttrs (_: v: builtins.typeOf v == "string");
+
+            ingressesSet = filterIngressSet tunnel.ingress;
+            ingressesStr = filterIngressStr tunnel.ingress;
+
             fullConfig = {
               tunnel = name;
               "credentials-file" = tunnel.credentialsFile;
-              ingress = (map
-                (key: {
-                  hostname = key;
-                } // getAttr key (filterConfig (filterConfig tunnel.ingress)))
-                (attrNames tunnel.ingress)) ++ [{ service = tunnel.default; }];
+              ingress =
+                (map
+                  (key: {
+                    hostname = key;
+                  } // getAttr key (filterConfig (filterConfig ingressesSet)))
+                  (attrNames ingressesSet))
+                ++
+                (map
+                  (key: {
+                    hostname = key;
+                    service = getAttr key ingressesStr;
+                  })
+                  (attrNames ingressesStr))
+                ++ [{ service = tunnel.default; }];
             };
             mkConfigFile = pkgs.writeText "cloudflared.yml" (builtins.toJSON fullConfig);
           in
