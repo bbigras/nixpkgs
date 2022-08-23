@@ -169,8 +169,18 @@ in
         options = {
           inherit originRequest;
 
+          originCert = mkOption {
+            type = with types; nullOr path;
+            default = null;
+            description = ''
+              Certificate file
+
+              See <link xlink:href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/local/local-management/arguments/#origincert">Cloudflared parameter</link>.
+              '';
+          };
+
           credentialsFile = mkOption {
-            type = with types; nullOr str;
+            type = with types; nullOr path;
             default = null;
             description = ''
               Credential file.
@@ -181,8 +191,8 @@ in
 
           warp-routing = {
             enabled = mkOption {
-              type = with types; nullOr bool;
-              default = null;
+              type = types.bool;
+              default = false;
               description = ''
                 Enable warp routing.
 
@@ -193,7 +203,7 @@ in
 
           default = mkOption {
             type = with types; nullOr str;
-            default = null;
+            default = "http_status:404";
             description = ''
               Catch-all service if no ingress matches.
 
@@ -248,6 +258,7 @@ in
       default = { };
       example = {
         "00000000-0000-0000-0000-000000000000" = {
+          originCert = "foo/bar.pem";
           credentialsFile = "/tmp/test";
           ingress = {
             "*.domain1.com" = {
@@ -260,7 +271,10 @@ in
     };
   };
 
-  config = {
+  config = mkIf cfg.enable {
+
+    environment.systemPackages = [ cfg.package ];
+
     systemd.targets =
       mapAttrs'
         (name: tunnel:
@@ -287,7 +301,11 @@ in
 
             fullConfig = {
               tunnel = name;
+              "origincert" = tunnel.originCert;
               "credentials-file" = tunnel.credentialsFile;
+              "warp-routing" = {
+                "enabled" = tunnel.warp-routing.enabled;
+              };
               ingress =
                 (map
                   (key: {
@@ -306,13 +324,14 @@ in
             mkConfigFile = pkgs.writeText "cloudflared.yml" (builtins.toJSON fullConfig);
           in
           nameValuePair "cloudflared-tunnel-${name}" ({
-            after = [ "network.target" ];
+            after = [ "network-online.target" "systemd-resolved.service" "warp-svc.service" ];
             wantedBy = [ "multi-user.target" ];
             serviceConfig = {
               User = cfg.user;
               Group = cfg.group;
               ExecStart = "${cfg.package}/bin/cloudflared tunnel --config=${mkConfigFile} --no-autoupdate run";
               Restart = "always";
+              RestartSec = "5s";
             };
           })
         )
@@ -322,6 +341,7 @@ in
       cloudflared = {
         group = cfg.group;
         isSystemUser = true;
+        description = "cloudflared user";
       };
     };
 
