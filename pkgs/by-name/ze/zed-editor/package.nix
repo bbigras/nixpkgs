@@ -92,8 +92,8 @@ rustPlatform.buildRustPackage rec {
     owner = "zed-industries";
     repo = "zed";
     # rev = "refs/tags/v${version}";
-    rev = "40802d91d4faf849ad35fb53d6b00320c1d04cc1";
-    hash = "sha256-X4p2Sm7w5Yuhe6ldcveKzN0nT4ImuwnY6bptXF9DL9o=";
+    rev = "f80eb264fb9598ef929bbc38558f0adaac52e603";
+    hash = "sha256-NkzEW1PWiuDlNXI3pPavobxvUpvfv43AWdakG6G74ao=";
   };
 
   patches = [
