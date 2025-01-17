@@ -12,18 +12,19 @@
   jujutsu,
   resholve,
   stdenv,
+  util-linux,
   which,
 }:
 
 resholve.mkDerivation rec {
   pname = "jj-fzf";
-  version = "0.23.0";
+  version = "0.24.0";
 
   src = fetchFromGitHub {
     owner = "tim-janik";
     repo = "jj-fzf";
     rev = "v${version}";
-    hash = "sha256-a8h5H4uDsMHJvP/TuvkuCaw/uTR/Oe1lARPpqSzjqoQ=";
+    hash = "sha256-naYedpY4bioJ1onn/8hQjkx8sKCgPXQP3nRbneVulcU=";
   };
 
   dontConfigure = true;
@@ -39,6 +40,7 @@ resholve.mkDerivation rec {
     scripts = [ "bin/jj-fzf" ];
     interpreter = "${lib.getExe bashInteractive}";
     inputs = [
+      bashInteractive
       coreutils
       findutils
       fzf
@@ -47,6 +49,7 @@ resholve.mkDerivation rec {
       gnugrep
       gnused
       jujutsu
+      util-linux # for the 'column' cmd
       which
     ];
     keep = {
@@ -56,12 +59,16 @@ resholve.mkDerivation rec {
       "$JJFZFONELINE" = true;
       "$JJFZFPAGER" = true;
       "$JJFZFSHOW" = true;
+      "$JJ_EDITOR" = true;
       "$ONESHOT" = true;
       "$R1" = true;
       "$REVSETNAME" = true;
       "$SELF" = true;
+      "$SHOW_KEYS" = true;
+      "$SIMPLIFY" = true;
       "$SP" = true;
       source = [
+        "$TEMPD/rebase.env"
         "$TEMPD/rebasing.env"
         "$TEMPD/reparenting.env"
       ];
