@@ -18,13 +18,13 @@
 
 resholve.mkDerivation rec {
   pname = "jj-fzf";
-  version = "0.24.0";
+  version = "20250111-git";
 
   src = fetchFromGitHub {
     owner = "tim-janik";
     repo = "jj-fzf";
-    rev = "v${version}";
-    hash = "sha256-naYedpY4bioJ1onn/8hQjkx8sKCgPXQP3nRbneVulcU=";
+    rev = "b81c9d61e4a91679f88171793143e893e6e37421";
+    hash = "sha256-Lz05VXfks6buUE2Poula6lg+Yw9OjS0q3LWafzsibdQ=";
   };
 
   dontConfigure = true;
