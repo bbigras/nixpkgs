@@ -1,0 +1,148 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@effection/effection@^4.0.0-beta.2": "4.0.0-beta.2",
+    "jsr:@effectionx/test-adapter@0.1": "0.1.2",
+    "jsr:@std/assert@1": "1.0.11",
+    "jsr:@std/assert@^1.0.10": "1.0.11",
+    "jsr:@std/assert@^1.0.11": "1.0.11",
+    "jsr:@std/bytes@^1.0.5": "1.0.5",
+    "jsr:@std/data-structures@^1.0.6": "1.0.6",
+    "jsr:@std/expect@^1.0.13": "1.0.13",
+    "jsr:@std/fs@^1.0.9": "1.0.13",
+    "jsr:@std/internal@^1.0.5": "1.0.5",
+    "jsr:@std/path@^1.0.8": "1.0.8",
+    "jsr:@std/streams@^1.0.9": "1.0.9",
+    "jsr:@std/testing@^1.0.9": "1.0.9",
+    "npm:@types/node@*": "22.5.4",
+    "npm:deepmerge@^4.3.1": "4.3.1",
+    "npm:effection@4.0.0-beta.2": "4.0.0-beta.2",
+    "npm:optics-ts@^2.4.1": "2.4.1",
+    "npm:vscode-jsonrpc@^8.2.1": "8.2.1",
+    "npm:vscode-languageserver-protocol@^3.17.5": "3.17.5",
+    "npm:zod-opts@~0.1.8": "0.1.8",
+    "npm:zod@^3.24.2": "3.24.2"
+  },
+  "jsr": {
+    "@effection/effection@4.0.0-alpha.7": {
+      "integrity": "bb6be892e048c784a4d0ae274a5f9197eb968e3bab15a83b7763a9b1f74a382d"
+    },
+    "@effection/effection@4.0.0-beta.2": {
+      "integrity": "d1d281fa568320535e8d7e698394851d97295393b0e62d4b17f1a205f915119a"
+    },
+    "@effectionx/test-adapter@0.1.2": {
+      "integrity": "6f3b484b1bde69591c082bd512b649e583f213af5d8b3f8d38a5e74ec4d56b01",
+      "dependencies": [
+        "npm:effection"
+      ]
+    },
+    "@std/assert@1.0.11": {
+      "integrity": "2461ef3c368fe88bc60e186e7744a93112f16fd110022e113a0849e94d1c83c1",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/bytes@1.0.5": {
+      "integrity": "4465dd739d7963d964c809202ebea6d5c6b8e3829ef25c6a224290fbb8a1021e"
+    },
+    "@std/data-structures@1.0.6": {
+      "integrity": "76a7fd8080c66604c0496220a791860492ab21a04a63a969c0b9a0609bbbb760"
+    },
+    "@std/expect@1.0.13": {
+      "integrity": "d8e236c7089cd9fcf5e6032f27dadc3db6349d0aee48c15bc71d717bca5baa42",
+      "dependencies": [
+        "jsr:@std/assert@^1.0.11",
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/fs@1.0.13": {
+      "integrity": "756d3ff0ade91c9e72b228e8012b6ff00c3d4a4ac9c642c4dac083536bf6c605",
+      "dependencies": [
+        "jsr:@std/path"
+      ]
+    },
+    "@std/internal@1.0.5": {
+      "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
+    },
+    "@std/path@1.0.8": {
+      "integrity": "548fa456bb6a04d3c1a1e7477986b6cffbce95102d0bb447c67c4ee70e0364be"
+    },
+    "@std/streams@1.0.9": {
+      "integrity": "a9d26b1988cdd7aa7b1f4b51e1c36c1557f3f252880fa6cc5b9f37078b1a5035",
+      "dependencies": [
+        "jsr:@std/bytes"
+      ]
+    },
+    "@std/testing@1.0.9": {
+      "integrity": "9bdd4ac07cb13e7594ac30e90f6ceef7254ac83a9aeaa089be0008f33aab5cd4",
+      "dependencies": [
+        "jsr:@std/assert@^1.0.10",
+        "jsr:@std/data-structures",
+        "jsr:@std/fs",
+        "jsr:@std/internal",
+        "jsr:@std/path"
+      ]
+    }
+  },
+  "npm": {
+    "@types/node@22.5.4": {
+      "integrity": "sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==",
+      "dependencies": [
+        "undici-types"
+      ]
+    },
+    "deepmerge@4.3.1": {
+      "integrity": "sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A=="
+    },
+    "effection@4.0.0-beta.2": {
+      "integrity": "sha512-iqEBfInNx3rB2DhQYYu6LcJ7zRn4yFo+DjUntcWNZeYWh1LiucMXb2JMiD1OA8WPgc3KOwQBxXfOwby1v34WdQ=="
+    },
+    "optics-ts@2.4.1": {
+      "integrity": "sha512-HaYzMHvC80r7U/LqAd4hQyopDezC60PO2qF5GuIwALut2cl5rK1VWHsqTp0oqoJJWjiv6uXKqsO+Q2OO0C3MmQ=="
+    },
+    "undici-types@6.19.8": {
+      "integrity": "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw=="
+    },
+    "vscode-jsonrpc@8.2.0": {
+      "integrity": "sha512-C+r0eKJUIfiDIfwJhria30+TYWPtuHJXHtI7J0YlOmKAo7ogxP20T0zxB7HZQIFhIyvoBPwWskjxrvAtfjyZfA=="
+    },
+    "vscode-jsonrpc@8.2.1": {
+      "integrity": "sha512-kdjOSJ2lLIn7r1rtrMbbNCHjyMPfRnowdKjBQ+mGq6NAW5QY2bEZC/khaC5OR8svbbjvLEaIXkOq45e2X9BIbQ=="
+    },
+    "vscode-languageserver-protocol@3.17.5": {
+      "integrity": "sha512-mb1bvRJN8SVznADSGWM9u/b07H7Ecg0I3OgXDuLdn307rl/J3A9YD6/eYOssqhecL27hK1IPZAsaqh00i/Jljg==",
+      "dependencies": [
+        "vscode-jsonrpc@8.2.0",
+        "vscode-languageserver-types"
+      ]
+    },
+    "vscode-languageserver-types@3.17.5": {
+      "integrity": "sha512-Ld1VelNuX9pdF39h2Hgaeb5hEZM2Z3jUrrMgWQAu82jMtZp7p3vJT3BzToKtZI7NgQssZje5o0zryOrhQvzQAg=="
+    },
+    "zod-opts@0.1.8": {
+      "integrity": "sha512-YZhdEcIL3D2W9fXCCf/UBgrBS90c8w25RTteh5GihGIZzadYr/qIFxyM2L98zHUkZ2S8MMxwn3ny8fzPNnvPlg==",
+      "dependencies": [
+        "zod"
+      ]
+    },
+    "zod@3.24.2": {
+      "integrity": "sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ=="
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@effection/effection@^4.0.0-beta.2",
+      "jsr:@effectionx/test-adapter@0.1",
+      "jsr:@std/assert@1",
+      "jsr:@std/expect@^1.0.13",
+      "jsr:@std/streams@^1.0.9",
+      "jsr:@std/testing@^1.0.9",
+      "npm:deepmerge@^4.3.1",
+      "npm:optics-ts@^2.4.1",
+      "npm:vscode-jsonrpc@^8.2.1",
+      "npm:vscode-languageserver-protocol@^3.17.5",
+      "npm:zod-opts@~0.1.8",
+      "npm:zod@^3.24.2"
+    ]
+  }
+}
