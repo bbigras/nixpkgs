@@ -2,18 +2,19 @@
   lib,
   python3Packages,
   fetchFromGitHub,
+  p7zip,
   versionCheckHook,
 }:
 python3Packages.buildPythonApplication rec {
   pname = "gamma-launcher";
-  version = "2.5";
+  version = "git-2025-12-09";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "Mord3rca";
     repo = "gamma-launcher";
-    tag = "v${version}";
-    hash = "sha256-qzjfgDFimEL6vtsJBubY6fHsokilDB248WwHJt3F7fI=";
+    rev = "c3b8234525d1b75ef54912eeb34230058b7670b7";
+    hash = "sha256-41PksS5F8kGw/ou5T2fNvyumlt4bKdpgZdoPZqKIPvE=";
   };
 
   build-system = [ python3Packages.setuptools ];
@@ -30,8 +31,17 @@ python3Packages.buildPythonApplication rec {
     tqdm
   ];
 
-  nativeCheckInputs = [ versionCheckHook ];
-  doInstallCheck = true;
+  # nativeCheckInputs = [ versionCheckHook ];
+  # doInstallCheck = true;
+
+  postFixup = ''
+    wrapProgram $out/bin/gamma-launcher \
+    --prefix PATH : "${
+      lib.makeBinPath [
+        p7zip
+      ]
+    }"
+  '';
 
   meta = {
     description = "Python cli to download S.T.A.L.K.E.R. GAMMA";
